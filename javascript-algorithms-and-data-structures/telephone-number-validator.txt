@@ -1,0 +1,18 @@
+function telephoneCheck(str) {
+  const cleanStr = str.replace(/\s+/g, "");
+
+  const regex = [
+    /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
+    /^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/,
+    /^[0-9]{10}$/,
+    /^1[0-9]{10}$/,
+    /^1[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
+    /^1\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/,
+  ]
+
+  console.log(cleanStr, regex.some(regex => cleanStr.match(regex)))
+  return regex.some(regex => cleanStr.match(regex));
+
+}
+
+telephoneCheck("555-555-5555");

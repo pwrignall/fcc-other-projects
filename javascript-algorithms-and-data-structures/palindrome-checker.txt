@@ -1,0 +1,13 @@
+function palindrome(str) {
+  const regex = /[^a-zA-Z\d]/g
+  const strArr = str.toLowerCase().replace(regex, "").split("");
+  let strArrRev = strArr.slice().reverse();
+  console.log(strArr.join(""));
+  console.log(strArrRev.join(""));
+  console.log(strArr.join("") === strArrRev.join(""))
+  return strArr.join("") === strArrRev.join("");
+}
+
+
+
+palindrome("1 eye for of 1 eye.");
