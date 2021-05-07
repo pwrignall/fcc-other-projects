@@ -1,0 +1,63 @@
+function modulo(change, note) {
+  return change/note >= 1 ? parseInt(change/note) : 0
+}
+
+const notes = {
+  "ONE HUNDRED": 100,
+  "TWENTY": 20,
+  "TEN": 10,
+  "FIVE": 5,
+  "ONE": 1,
+  "QUARTER": 0.25,
+  "DIME": 0.1,
+  "NICKEL": 0.5,
+  "PENNY": 0.01
+}
+
+function subtract(a, b) {
+  return Math.round((a - b) * 100) / 100;
+}
+
+function checkCashRegister(price, cash, cid) {
+  let cashRegister = cid.reduce((acc, money) => {
+    acc["total"] += money[1];
+    acc[money[0]] = money[1];
+    return acc;
+  }, {total: 0})
+
+  const change = cash - price;
+  let remainingChange = change;
+  let changeArr = [];
+
+  for (let note in notes) {
+    let loops = modulo(remainingChange, notes[note]);
+    let i = 0;
+    let runs = 0;
+    let thisNoteChange = notes[note];
+    while (i < loops && remainingChange > 0 && cashRegister[note] > 0) {
+      remainingChange = subtract(remainingChange, thisNoteChange);
+      cashRegister.total = subtract(cashRegister.total, thisNoteChange);
+      cashRegister[note] = subtract(cashRegister[note], thisNoteChange);
+      runs++;
+      i++;
+    }
+    runs > 0 ? changeArr.push([note, runs * thisNoteChange]) : changeArr.push()
+  }
+
+  let changeResponse = {};
+
+  if (remainingChange > 0) {
+    changeResponse["status"] = "INSUFFICIENT_FUNDS";
+    changeResponse["change"] = [];
+  } else if (cashRegister.total == 0) {
+    changeResponse["status"] = "CLOSED";
+    changeResponse["change"] = cid;
+  } else {
+    changeResponse["status"] = "OPEN";
+    changeResponse["change"] = changeArr;
+  }
+    console.log(changeResponse)
+    return changeResponse;
+}
+
+checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
