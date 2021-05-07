@@ -19,6 +19,9 @@ function subtract(a, b) {
 }
 
 function checkCashRegister(price, cash, cid) {
+
+// Initially created a deep copy of the cid array with parse and stringify
+// Thanks to https://forum.freecodecamp.org/u/camperbot for suggesting this cleaner way
   let cashRegister = cid.reduce((acc, money) => {
     acc["total"] += money[1];
     acc[money[0]] = money[1];
